@@ -11,11 +11,28 @@ import plotly.graph_objects as go
 import warnings
 warnings.filterwarnings('ignore')
 
+st.set_page_config(page_title="Educational Tour Survey Dashboard", layout="wide", page_icon="🎓")
+
+# Password authentication
+if 'logged_in' not in st.session_state:
+    st.session_state.logged_in = False
+
+if not st.session_state.logged_in:
+    with st.form("login_form"):
+        password = st.text_input("Enter password to access the dashboard", type="password")
+        submitted = st.form_submit_button("Login")
+        if submitted:
+            if password == "admin123":
+                st.session_state.logged_in = True
+                st.success("Login successful!")
+                st.rerun()
+            else:
+                st.error("Incorrect password. Access denied.")
+    st.stop()
+
 # Set style for better visualizations
 plt.style.use('default')
 sns.set_palette("husl")
-
-st.set_page_config(page_title="Educational Tour Survey Dashboard", layout="wide", page_icon="🎓")
 
 # Load and process data
 @st.cache_data
