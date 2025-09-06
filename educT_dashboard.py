@@ -536,15 +536,15 @@ with tab8:
             barrier_counts[barrier] = filtered_df[col_name].sum()
     
     barrier_df = pd.DataFrame(list(barrier_counts.items()), columns=['Barrier', 'Count'])
-    barrier_df = barrier_df.sort_values('Count', ascending=True)
+    barrier_df = barrier_df.sort_values('Count', ascending=False).head(10)  # Top 10 barriers
     
     col1, col2 = st.columns(2)
     with col1:
-        fig = px.bar(barrier_df, x='Count', y='Barrier', orientation='h', title='Barriers to Joining')
+        fig = px.bar(barrier_df.sort_values('Count', ascending=True), x='Count', y='Barrier', orientation='h', title='Top 10 Barriers to Joining')
         st.plotly_chart(fig, use_container_width=True)
     
     with col2:
-        fig = px.pie(barrier_df, values='Count', names='Barrier', title='Barrier Distribution')
+        fig = px.pie(barrier_df, values='Count', names='Barrier', title='Top 10 Barrier Distribution')
         st.plotly_chart(fig, use_container_width=True)
     
     # Program-Section Breakdown
